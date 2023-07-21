@@ -5,6 +5,9 @@ coverage.json
 typechain
 typechain-types
 
+# Package manager
+pnpm-lock.yaml
+
 # Hardhat files
 cache
 artifacts
