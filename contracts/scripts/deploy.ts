@@ -1,27 +1,28 @@
-import { ethers } from "hardhat";
+import fs from "fs";
+import path from "path";
+import { DeployHelper } from "../helpers/DeployHelper";
+const pathOutputJson = path.join(__dirname, "./deploy_output.json");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  const deployHelper = await DeployHelper.initialize(null, true);
 
-  const lockedAmount = ethers.parseEther("0.001");
+  const { state, smtLib, poseidon1, poseidon2, poseidon3 } =
+    await deployHelper.deployStateV2();
 
-  const lock = await ethers.deployContract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
-
-  await lock.waitForDeployment();
-
-  console.log(
-    `Lock with ${ethers.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
-  );
+  const outputJson = {
+    state: state,
+    smtLib: smtLib,
+    poseidon1: poseidon1,
+    poseidon2: poseidon2,
+    poseidon3: poseidon3,
+    network: process.env.HARDHAT_NETWORK,
+  };
+  fs.writeFileSync(pathOutputJson, JSON.stringify(outputJson, null, 1));
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
