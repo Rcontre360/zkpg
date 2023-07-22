@@ -1,11 +1,14 @@
-import {publishAttestationObject} from "@shared/utils/eas";
+import {onAddPublishAttestation} from "@redux/actions";
+import {useAppDispatch} from "@redux/store";
+import {getAttestationUID, publishAttestationObject} from "@shared/utils/eas";
 import {convertImageToMatrix, hashMatrix} from "@shared/utils/images";
 import {sendPublishAttestation} from "@shared/utils/main";
-import {getAccount, getEthersProvider, sign_message} from "@shared/utils/metamask";
+import {getAccount, sign_message} from "@shared/utils/metamask";
 import {useState} from "react";
 import {AiOutlineCopy} from "react-icons/ai";
 
 export default function MakeImageAttestation() {
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [verificationResult, setVerificationResult] = useState(null);
@@ -32,8 +35,9 @@ export default function MakeImageAttestation() {
         signature: imageSign,
         account,
       });
-      await sendPublishAttestation(publishObject);
+      const uid = await getAttestationUID(await sendPublishAttestation(publishObject));
 
+      dispatch(onAddPublishAttestation({uid}));
       setVerificationResult(true);
       setMetadata({
         history: `Image taken at ${new Date().toLocaleString("en-US")}`,

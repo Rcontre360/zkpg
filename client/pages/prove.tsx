@@ -1,11 +1,14 @@
-import {modificationAttestationObject} from "@shared/utils/eas";
+import {onAddModifyAttestation} from "@redux/actions";
+import {useAppDispatch} from "@redux/store";
+import {getAttestationUID, modificationAttestationObject} from "@shared/utils/eas";
 import {convertImageToMatrix, hashMatrix, ImageMatrix} from "@shared/utils/images";
 import {sendModifyAttestation} from "@shared/utils/main";
 import {getAccount, sign_message} from "@shared/utils/metamask";
-import {calculateCropProof, CROP_VERIFIER, getCropVerifier} from "@shared/utils/zk";
+import {calculateCropProof, CROP_VERIFIER} from "@shared/utils/zk";
 import {useState} from "react";
 
 export default function ProveModifications() {
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Cropping");
   const [proofs, setProofs] = useState([]);
@@ -56,7 +59,11 @@ export default function ProveModifications() {
         proof: solidityProof,
       });
 
-      await sendModifyAttestation(modificationObject, CROP_VERIFIER, solidityProof, publicSignals);
+      const uid = await getAttestationUID(
+        await sendModifyAttestation(modificationObject, CROP_VERIFIER, solidityProof, publicSignals)
+      );
+
+      dispatch(onAddModifyAttestation({uid}));
     } catch (err) {
       console.log("err", err.message);
     }
