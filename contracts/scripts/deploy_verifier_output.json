@@ -1,0 +1,8 @@
+{
+ "verifier": "0x6dEd81d70CD6CC68BeEe985B05916A56806d9aA3",
+ "eas": "0x2cDc1DDe90125Dd4E43C61247dF8892Ee15327Ce",
+ "sigValidator": "0xF2D4Eeb4d455fb673104902282Ce68B9ce4Ac450",
+ "spongePoseidonLib": "0x12d8C87A61dAa6DD31d8196187cFa37d1C647153",
+ "poseidon6Lib": "0xb588b8f07012Dc958aa90EFc7d3CF943057F17d7",
+ "network": "mumbai"
+}
