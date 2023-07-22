@@ -37,25 +37,29 @@ export default function ProveModifications() {
 
   const handleProveModifications = async () => {
     setLoading(true);
-    const {result, solidityProof, publicSignals} = await calculateCropProof(
-      originalMatrix,
-      modifiedMatrix
-    );
-    //const cropVerifier = await getCropVerifier();
-    //const finalResult = await cropVerifier.verifyProof(solidityProof, publicSignals);
+    try {
+      const {result, solidityProof, publicSignals} = await calculateCropProof(
+        originalMatrix,
+        modifiedMatrix
+      );
+      //const cropVerifier = await getCropVerifier();
+      //const finalResult = await cropVerifier.verifyProof(solidityProof, publicSignals);
 
-    const newImageHash = hashMatrix(modifiedMatrix);
-    const imageSign = await sign_message(newImageHash);
-    const account = await getAccount();
+      const newImageHash = hashMatrix(modifiedMatrix);
+      const imageSign = await sign_message(newImageHash);
+      const account = await getAccount();
 
-    const modificationObject = modificationAttestationObject({
-      newImageHash,
-      signature: imageSign,
-      account,
-      proof: solidityProof,
-    });
+      const modificationObject = modificationAttestationObject({
+        newImageHash,
+        signature: imageSign,
+        account,
+        proof: solidityProof,
+      });
 
-    await sendModifyAttestation(modificationObject, CROP_VERIFIER, solidityProof, publicSignals);
+      await sendModifyAttestation(modificationObject, CROP_VERIFIER, solidityProof, publicSignals);
+    } catch (err) {
+      console.log("err", err.message);
+    }
 
     setLoading(false);
   };

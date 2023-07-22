@@ -11,7 +11,7 @@ const getSchemaRegistry = (provider: Signer) => {
   return contract;
 };
 
-const createSchema = async () => {
+const publishSchema = async () => {
   const [signer] = await ethers.getSigners();
   console.log("AAA");
   const schemaRegistry = getSchemaRegistry(signer);
@@ -48,7 +48,41 @@ const createSchema = async () => {
 
 //UID: 0x5ece2b3eabf8b7b4613691e4f2a62e64fe3e52be01c8a2e0c68291b0eb8da26e
 //account: mine
+//
+const modifyImageSchema = async () => {
+  const [signer] = await ethers.getSigners();
+  const schemaRegistry = getSchemaRegistry(signer);
 
-createSchema()
+  const schema = "bytes32 imageHash, bytes signature, uint256[] proof, address account";
+  const resolverAddress = ZeroAddress;
+  const revocable = true;
+  const transaction: TransactionResponse = await schemaRegistry.register(
+    schema,
+    resolverAddress,
+    revocable
+  );
+
+  console.log("TURURUR");
+  const tx = await transaction.wait();
+
+  const events = tx?.logs
+    .map((log) => {
+      const topics = [...log.topics];
+      try {
+        return schemaRegistry.interface.parseLog({topics, data: log.data});
+      } catch (error) {
+        return null; // Log is not from this contract
+      }
+    })
+    .filter((event) => event !== null);
+
+  const args = events.find((ev) => ev.name === "Registered").args[0];
+  console.log(`TX: ${tx?.hash} . UID: ${args}`);
+  console.log(events);
+};
+
+//uid 0x9da78eea0198965f668125297e478b413e0333829cbbb95812cc8eb2806a66e8
+
+modifyImageSchema()
   .then(() => console.log("YAY"))
   .catch((err) => console.log("fuck...: ", err.message));
