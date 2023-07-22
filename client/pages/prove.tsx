@@ -1,5 +1,5 @@
 import {convertImageToMatrix, ImageMatrix} from "@shared/utils/images";
-import {calculateCropProof} from "@shared/utils/zk";
+import {calculateCropProof, getCropVerifier} from "@shared/utils/zk";
 import {useState} from "react";
 
 export default function ProveModifications() {
@@ -34,11 +34,13 @@ export default function ProveModifications() {
 
   const handleProveModifications = async () => {
     setLoading(true);
-    calculateCropProof(originalMatrix, modifiedMatrix);
+    const {result, solidityProof, publicSignals} = await calculateCropProof(
+      originalMatrix,
+      modifiedMatrix
+    );
+    const cropVerifier = await getCropVerifier();
+    const finalResult = await cropVerifier.verifyProof(solidityProof, publicSignals);
 
-    // Your async logic here using originalMatrix and modifiedMatrix
-    // For demonstration purposes, I'm setting dummy proofs
-    setProofs(["0x1234567890abcdef", "0xabcdef1234567890"]);
     setLoading(false);
   };
 
