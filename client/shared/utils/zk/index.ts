@@ -16,7 +16,6 @@ export async function calculateCropProof(
   newImageMatrixc: ImageMatrix
 ) {
   let snarkjs = (window as any).snarkjs;
-  console.log("SNARKJS!!", originalImageMatrix.length, newImageMatrixc.length);
   const {proof, publicSignals} = await snarkjs.plonk.fullProve(
     {orig: originalImageMatrix, new: newImageMatrixc},
     "./zk/crop/circuit.wasm",

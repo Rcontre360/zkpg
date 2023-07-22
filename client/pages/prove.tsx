@@ -1,5 +1,8 @@
-import {convertImageToMatrix, ImageMatrix} from "@shared/utils/images";
-import {calculateCropProof, getCropVerifier} from "@shared/utils/zk";
+import {modificationAttestationObject} from "@shared/utils/eas";
+import {convertImageToMatrix, hashMatrix, ImageMatrix} from "@shared/utils/images";
+import {sendModifyAttestation} from "@shared/utils/main";
+import {getAccount, sign_message} from "@shared/utils/metamask";
+import {calculateCropProof, CROP_VERIFIER, getCropVerifier} from "@shared/utils/zk";
 import {useState} from "react";
 
 export default function ProveModifications() {
@@ -38,8 +41,21 @@ export default function ProveModifications() {
       originalMatrix,
       modifiedMatrix
     );
-    const cropVerifier = await getCropVerifier();
-    const finalResult = await cropVerifier.verifyProof(solidityProof, publicSignals);
+    //const cropVerifier = await getCropVerifier();
+    //const finalResult = await cropVerifier.verifyProof(solidityProof, publicSignals);
+
+    const newImageHash = hashMatrix(modifiedMatrix);
+    const imageSign = await sign_message(newImageHash);
+    const account = await getAccount();
+
+    const modificationObject = modificationAttestationObject({
+      newImageHash,
+      signature: imageSign,
+      account,
+      proof: solidityProof,
+    });
+
+    await sendModifyAttestation(modificationObject, CROP_VERIFIER, solidityProof, publicSignals);
 
     setLoading(false);
   };

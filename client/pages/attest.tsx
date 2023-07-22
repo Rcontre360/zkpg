@@ -1,5 +1,6 @@
-import {createAttestation} from "@shared/utils/eas";
+import {publishAttestationObject} from "@shared/utils/eas";
 import {convertImageToMatrix, hashMatrix} from "@shared/utils/images";
+import {sendPublishAttestation} from "@shared/utils/main";
 import {getAccount, getEthersProvider, sign_message} from "@shared/utils/metamask";
 import {useState} from "react";
 import {AiOutlineCopy} from "react-icons/ai";
@@ -21,23 +22,19 @@ export default function MakeImageAttestation() {
     setLoading(true);
 
     const matrix = await convertImageToMatrix(selectedImage);
-    console.log("matrix", matrix.length, matrix[0].length, matrix[0][0]);
     const imageHash = hashMatrix(matrix);
-    console.log("image hash", imageHash);
     const imageSign = await sign_message(imageHash);
-    console.log("image sign", imageSign);
     const account = await getAccount();
-    console.log("account", account);
-    const provider = await getEthersProvider();
 
     try {
-      await createAttestation(provider.getSigner(), {
+      const publishObject = publishAttestationObject({
         imageHash,
         signature: imageSign,
         account,
       });
+      await sendPublishAttestation(publishObject);
+
       setVerificationResult(true);
-      console.log("set metadata");
       setMetadata({
         history: `Image taken at ${new Date().toLocaleString("en-US")}`,
         photographer: account,
