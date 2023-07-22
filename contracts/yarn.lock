@@ -443,6 +443,14 @@
     fastfile "0.0.20"
     ffjavascript "^0.2.48"
 
+"@iden3/contracts@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@iden3/contracts/-/contracts-1.1.0.tgz#a8be30f5d6e17fb724322a52cbd068f7d907b655"
+  integrity sha512-/VDTVOxgsbwrwJCT43aP7X3eWIMWHW0SpOIH6iWTXQlDH5eI0mLOPeeWxUFVkjMia4z48L+KIhsBe9y59uJxlw==
+  dependencies:
+    "@openzeppelin/contracts" "^4.7.3"
+    "@openzeppelin/contracts-upgradeable" "^4.8.2"
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.1.1.tgz#c08679063f279615a3326583ba3a90d1d82cc721"
@@ -775,12 +783,12 @@
     table "^6.8.0"
     undici "^5.14.0"
 
-"@openzeppelin/contracts-upgradeable@^4.9.1":
+"@openzeppelin/contracts-upgradeable@^4.8.2", "@openzeppelin/contracts-upgradeable@^4.9.1":
   version "4.9.2"
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts-upgradeable/-/contracts-upgradeable-4.9.2.tgz#a817c75688f8daede420052fbcb34e52482e769e"
   integrity sha512-siviV3PZV/fHfPaoIC51rf1Jb6iElkYWnNYZ0leO23/ukXuvOyoC/ahy8jqiV7g+++9Nuo3n/rk5ajSN/+d/Sg==
 
-"@openzeppelin/contracts@^4.8.0":
+"@openzeppelin/contracts@^4.7.3", "@openzeppelin/contracts@^4.8.0":
   version "4.9.2"
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.9.2.tgz#1cb2d5e4d3360141a17dbc45094a8cad6aac16c1"
   integrity sha512-mO+y6JaqXjWeMh9glYVzVu8HYPGknAAnWyxTRhGeckOruyXQMNnlcW6w/Dx9ftLeIQk6N+ZJFuVmTwF7lEIFrg==

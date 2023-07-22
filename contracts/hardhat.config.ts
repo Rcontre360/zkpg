@@ -1,10 +1,9 @@
-import { HardhatUserConfig } from "hardhat/config";
-import "@openzeppelin/hardhat-upgrades";
+import {HardhatUserConfig} from "hardhat/config";
+//import "@openzeppelin/hardhat-upgrades";
 import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-toolbox";
 
 require("dotenv").config();
-import "hardhat-circom";
 
 const config: HardhatUserConfig = {
   solidity: "0.8.19",
