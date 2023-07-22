@@ -14,22 +14,7 @@ const config: HardhatUserConfig = {
         process.env.PK as string || ""
       ]
     }
-  },
-  circom: {
-    inputBasePath: "./circuits",
-    ptau: "https://hermez.s3-eu-west-1.amazonaws.com/powersOfTau28_hez_final_15.ptau",
-    circuits: [
-      {
-        name: "crop",
-      },
-      //{
-      //name: "grayscale",
-      //},
-      //{
-      //name: "resize",
-      //},
-    ],
-  },
+  }
 };
 
 export default config;
