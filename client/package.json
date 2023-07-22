@@ -50,6 +50,7 @@
     "react-dropzone": "^14.2.3",
     "react-icons": "^4.10.1",
     "react-redux": "^7.2.6",
+    "react-slick": "^0.29.0",
     "react-tsparticles": "^2.11.0",
     "rxjs": "^6.5.3",
     "slick-carousel": "^1.8.1",
