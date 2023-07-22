@@ -5,50 +5,59 @@ import {
   SchemaRegistry,
 } from "@ethereum-attestation-service/eas-sdk";
 import {JsonRpcProvider} from "@ethersproject/providers";
-import {ethers} from "ethers";
+import {Signer} from "ethers";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
-export const getEas = (provider: JsonRpcProvider) => {
+export const getEas = (provider: Signer) => {
   const eas = new EAS(EASContractAddress);
 
   eas.connect(provider);
   return eas;
 };
 
-export const getAttestation = async (provider: JsonRpcProvider, uid: string) => {
+export const getAttestation = async (provider: Signer, uid: string) => {
   const eas = getEas(provider);
 
   return await eas.getAttestation(uid);
 };
 
 export const createAttestation = async (
-  provider: JsonRpcProvider,
+  provider: Signer,
   data: {
     imageHash: string;
-    hashSignature: string;
+    signature: string;
+    account: string;
   }
 ) => {
   const eas = getEas(provider);
-  const schemaEncoder = new SchemaEncoder("uint256 eventId, uint8 voteIndex");
+  const schemaEncoder = new SchemaEncoder("bytes32 imageHash, bytes signature, address account");
+  console.log([
+    {name: "imageHash", value: data.imageHash, type: "bytes32"},
+    {name: "signature", value: data.signature, type: "bytes"},
+    {name: "account", value: data.account, type: "address"},
+  ]);
   const encodedData = schemaEncoder.encodeData([
-    {name: "imageHash", value: data.imageHash, type: "uint256"},
-    {name: "voteIndex", value: 1, type: "uint8"},
+    {name: "imageHash", value: data.imageHash, type: "bytes32"},
+    {name: "signature", value: data.signature, type: "bytes"},
+    {name: "account", value: data.account, type: "address"},
   ]);
 
-  const schemaUID = "0xb16fa048b0d597f5a821747eba64efa4762ee5143e9a80600d0005386edfc995";
+  const schemaUID = "0x5ece2b3eabf8b7b4613691e4f2a62e64fe3e52be01c8a2e0c68291b0eb8da26e";
+  console.log("HERE");
 
   const tx = await eas.attest({
     schema: schemaUID,
     data: {
-      recipient: "0xFD50b031E778fAb33DfD2Fc3Ca66a1EeF0652165",
+      recipient: data.account,
       expirationTime: 0,
       revocable: true,
       data: encodedData,
     },
   });
 
-  const newAttestationUID = await tx.wait();
+  //console.log("tx.wait");
+  //const newAttestationUID = await tx.wait();
 
-  console.log("New attestation UID:", newAttestationUID);
+  //console.log("New attestation UID:", newAttestationUID);
 };
