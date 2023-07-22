@@ -14,7 +14,12 @@ const config: HardhatUserConfig = {
         process.env.PK as string || ""
       ]
     }
-  }
+  },
+  etherscan: {
+    apiKey: {
+        polygonMumbai: process.env.POLYGON_KEY || ""
+    }
+}
 };
 
 export default config;

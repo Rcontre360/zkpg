@@ -56,6 +56,9 @@ export async function getEthersProvider() {
     // Create an ethers provider from the MetaMask provider
     const provider = new ethers.providers.Web3Provider((window as any).ethereum);
 
+     // Debug: Log the provider object
+     console.log('Provider: ', provider);
+
     return provider;
   } else {
     throw new Error("MetaMask is not installed.");
