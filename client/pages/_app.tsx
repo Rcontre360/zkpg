@@ -10,16 +10,18 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 
 import Layout from "../shared/layout";
 
+const P = Provider as any;
+
 function MyApp({Component, ...rest}) {
   const {store, props} = wrapper.useWrappedStore(rest);
   return (
-    <Provider store={store}>
+    <P store={store}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Layout>
           <Component {...props.pageProps} />
         </Layout>
       </LocalizationProvider>
-    </Provider>
+    </P>
   );
 }
 
