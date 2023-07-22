@@ -1,11 +1,14 @@
-import {publishAttestationObject} from "@shared/utils/eas";
+import {onAddPublishAttestation} from "@redux/actions";
+import {useAppDispatch} from "@redux/store";
+import {getAttestationUID, publishAttestationObject} from "@shared/utils/eas";
 import {convertImageToMatrix, hashMatrix} from "@shared/utils/images";
 import {sendPublishAttestation} from "@shared/utils/main";
-import {getAccount, getEthersProvider, sign_message} from "@shared/utils/metamask";
+import {getAccount, sign_message} from "@shared/utils/metamask";
 import {useState} from "react";
 import {AiOutlineCopy} from "react-icons/ai";
 
 export default function MakeImageAttestation() {
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [verificationResult, setVerificationResult] = useState(null);
@@ -32,8 +35,9 @@ export default function MakeImageAttestation() {
         signature: imageSign,
         account,
       });
-      await sendPublishAttestation(publishObject);
+      const uid = await getAttestationUID(await sendPublishAttestation(publishObject));
 
+      dispatch(onAddPublishAttestation({uid}));
       setVerificationResult(true);
       setMetadata({
         history: `Image taken at ${new Date().toLocaleString("en-US")}`,
@@ -49,8 +53,8 @@ export default function MakeImageAttestation() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center pt-32">
-      <h1 className="text-3xl font-bold mb-8">Make Attestation</h1>
+    <div className="min-h-screen text-white flex flex-col items-center pt-32">
+      <h1 className="text-3xl font-bold mb-8">Publish Image</h1>
       <div className="border-dashed border-2 border-gray-600 p-4 w-1/2">
         <input
           type="file"
@@ -68,9 +72,9 @@ export default function MakeImageAttestation() {
       </div>
       <button
         onClick={handleVerifyImage}
-        className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded w-1/2 mt-4"
+        className="bg-violet-800 hover:bg-blue-600 px-4 py-2 rounded w-1/2 mt-4"
       >
-        Make Attestation
+        Validate
       </button>
 
       {verificationResult

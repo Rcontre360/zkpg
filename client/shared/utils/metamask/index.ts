@@ -1,7 +1,28 @@
 import {ethers} from "ethers";
 
 export const connect = async () => {
-  return await (window as any).ethereum.request({method: "eth_requestAccounts"});
+  // Check if MetaMask (or another Ethereum provider) is installed
+  if (typeof (window as any).ethereum !== "undefined") {
+    try {
+      // Request account access, which will trigger the MetaMask popup
+      const accounts = await (window as any).ethereum.request({method: "eth_requestAccounts"});
+
+      // If connected successfully, the array of accounts is returned
+      if (accounts.length > 0) {
+        console.log("Connected with account:", accounts[0]);
+        return accounts[0]; // Return the connected account
+      } else {
+        console.error("No accounts found");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error connecting to MetaMask:", error.message);
+      return null;
+    }
+  } else {
+    console.error("MetaMask is not installed");
+    return null;
+  }
 };
 
 export const sign_message = async (message: string) => {

@@ -1,19 +1,34 @@
-import {EAS, SchemaEncoder, ZERO_BYTES} from "@ethereum-attestation-service/eas-sdk";
+import {EAS, SchemaEncoder} from "@ethereum-attestation-service/eas-sdk";
+import {TransactionResponse} from "@ethersproject/providers";
 import {ethers, Signer} from "ethers";
+import {getEthersProvider} from "../metamask";
+import SRAbi from "./SchemaRegistryAbi.json";
 
-const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
+const SCHEMA_REGISTRY = "0x5d29f5Bd870815147Bd008FFfbDdfE269C25E094"; //mumbai
+const EAS_ADDRESS = "0x2cDc1DDe90125Dd4E43C61247dF8892Ee15327Ce"; //mumbai
 
 export const getEas = (provider: Signer) => {
-  const eas = new EAS(EASContractAddress);
+  const eas = new EAS(EAS_ADDRESS);
 
   eas.connect(provider);
   return eas;
 };
 
-export const getAttestation = async (provider: Signer, uid: string) => {
+export const getSchemaRegistry = (provider: Signer) => {
+  const contract = new ethers.Contract(SCHEMA_REGISTRY, SRAbi, provider);
+
+  return contract;
+};
+
+export const getAttestation = async (uid: string) => {
+  const provider = (await getEthersProvider()).getSigner();
   const eas = getEas(provider);
 
   return await eas.getAttestation(uid);
+};
+
+export const getPublishAttestationEncoder = () => {
+  return new SchemaEncoder("bytes32 imageHash, bytes signature, address account");
 };
 
 export const publishAttestationObject = (data: {
@@ -21,7 +36,7 @@ export const publishAttestationObject = (data: {
   signature: string;
   account: string;
 }) => {
-  const schemaEncoder = new SchemaEncoder("bytes32 imageHash, bytes signature, address account");
+  const schemaEncoder = getPublishAttestationEncoder();
   const encodedData = schemaEncoder.encodeData([
     {name: "imageHash", value: data.imageHash, type: "bytes32"},
     {name: "signature", value: data.signature, type: "bytes"},
@@ -43,15 +58,17 @@ export const publishAttestationObject = (data: {
   };
 };
 
+export const getModificationAttestationEncoder = () => {
+  return new SchemaEncoder("bytes32 imageHash, bytes signature, uint256[] proof, address account");
+};
+
 export const modificationAttestationObject = (data: {
   newImageHash: string;
   signature: string;
   account: string;
   proof: string[];
 }) => {
-  const schemaEncoder = new SchemaEncoder(
-    "bytes32 imageHash, bytes signature, uint256[] proof, address account"
-  );
+  const schemaEncoder = getModificationAttestationEncoder();
   const encodedData = schemaEncoder.encodeData([
     {name: "imageHash", value: data.newImageHash, type: "bytes32"},
     {name: "signature", value: data.signature, type: "bytes"},
@@ -72,4 +89,23 @@ export const modificationAttestationObject = (data: {
       value: 0,
     },
   };
+};
+
+export const getAttestationUID = async (transaction: TransactionResponse) => {
+  const tx = await transaction.wait();
+  const eas = getEas((await getEthersProvider()).getSigner()).contract;
+
+  const events = tx?.logs
+    .map((log) => {
+      const topics = [...log.topics];
+      try {
+        return eas.interface.parseLog({topics, data: log.data});
+      } catch (error) {
+        return null; // Log is not from this contract
+      }
+    })
+    .filter((event) => event !== null);
+
+  const uid = events.find((ev) => ev.name === "Attested").args[2];
+  return uid as string;
 };
