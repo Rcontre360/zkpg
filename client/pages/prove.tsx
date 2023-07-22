@@ -1,12 +1,13 @@
-import {convertImageToMatrix} from "@shared/utils/images";
+import {convertImageToMatrix, ImageMatrix} from "@shared/utils/images";
+import {calculateCropProof} from "@shared/utils/zk";
 import {useState} from "react";
 
 export default function ProveModifications() {
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Cropping");
   const [proofs, setProofs] = useState([]);
-  const [originalMatrix, setOriginalMatrix] = useState(null);
-  const [modifiedMatrix, setModifiedMatrix] = useState(null);
+  const [originalMatrix, setOriginalMatrix] = useState<ImageMatrix>(null);
+  const [modifiedMatrix, setModifiedMatrix] = useState<ImageMatrix>(null);
   const [names, setImageNames] = useState({first: "No file chosen", second: "No file chosen"});
 
   const handleOriginalImageChange = async (event) => {
@@ -22,8 +23,6 @@ export default function ProveModifications() {
       first: file.name,
       second: `${file.name} cropped`,
     });
-
-    // TODO: Convert croppedMatrix back to an image and set it as the value of the modified image input
   };
 
   const handleModifiedImageChange = async (event) => {
@@ -35,6 +34,8 @@ export default function ProveModifications() {
 
   const handleProveModifications = async () => {
     setLoading(true);
+    calculateCropProof(originalMatrix, modifiedMatrix);
+
     // Your async logic here using originalMatrix and modifiedMatrix
     // For demonstration purposes, I'm setting dummy proofs
     setProofs(["0x1234567890abcdef", "0xabcdef1234567890"]);
