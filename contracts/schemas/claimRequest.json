@@ -1,12 +1,12 @@
 {
-    "id": "3cdce0ca-a754-4c38-8abc-485fcd0a48ab",
+    "id": "8d47c5a1-f29f-4eb7-b184-0121902a03e7",
     "typ": "application/iden3comm-plain-json",
     "type": "https://iden3-communication.io/proofs/1.0/contract-invoke-request",
-    "thid": "3cdce0ca-a754-4c38-8abc-485fcd0a48ab",
+    "thid": "8d47c5a1-f29f-4eb7-b184-0121902a03e7",
     "body": {
         "reason": "validate user personhood",
         "transaction_data": {
-            "contract_address": "0xBa003F28Ec83Aaa9600d4c0553a50552Dc9881bF",
+            "contract_address": "0x4dDD05E0667F9098f958722AFeEA61565e4653e6",
             "method_id": "b68967e2",
             "chain_id": 80001,
             "network": "polygon-mumbai"
@@ -19,7 +19,7 @@
                     "allowedIssuers": [
                         "*"
                     ],
-                    "context": "ipfs://QmQMQwzqu4vr7D8J4WPaWdbCgRyNzepxjTcU6ngrd1xxRj",
+                    "context": "ipfs://QmezxuGBkV9Co7bsGvK6Q2qFbit2ZNjvzVV9oNTAZLtKqr",
                     "credentialSubject": {
                         "isValid": {
                             "$eq": 1

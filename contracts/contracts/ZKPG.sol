@@ -13,8 +13,8 @@ interface PlonkVerifier {
 
 contract ZKPG is ZKPVerifier {
     event SuccessfulProof(
-        uint256 requestId,
-        uint256 challengeIndex,
+        uint64 requestId,
+        uint256 proofId,
         address indexed sender,
         uint256 indexed timestamp
     );
@@ -57,7 +57,17 @@ contract ZKPG is ZKPVerifier {
         );
 
         uint256 id = inputs[validator.getChallengeInputIndex()];
+
+        // Update storage
+        addressToId[sender] = id;
         idToAddress[id] = sender;
+
+        emit SuccessfulProof(
+            requestId,
+            id,
+            sender,
+            block.timestamp
+        );
     }
 
     function publishAttestation(

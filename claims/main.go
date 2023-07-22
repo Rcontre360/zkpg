@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	jsonLDContext = "ipfs://QmQMQwzqu4vr7D8J4WPaWdbCgRyNzepxjTcU6ngrd1xxRj" // JSONLD schema for credential
+	jsonLDContext = "ipfs://QmezxuGBkV9Co7bsGvK6Q2qFbit2ZNjvzVV9oNTAZLtKqr" // JSONLD schema for credential
 	typ           = "Publisher"                                             // credential type
 	fieldName     = "isValid"                                               // field name in form of field.field2.field3 field must be present in the credential subject
 	schemaJSONLD  = `{
@@ -25,26 +25,22 @@ const (
 			  "@context": {
 				"@propagate": true,
 				"@protected": true,
-				"polygon-vocab": "urn:uuid:65b52463-4be2-466a-ba6e-3ff12e5b5d6b#",
+				"polygon-vocab": "urn:uuid:01a602b7-3cd4-40b0-bcca-3e8fb9d6c5d8#",
 				"xsd": "http://www.w3.org/2001/XMLSchema#",
+				"userProof": {
+				  "@id": "polygon-vocab:userProof",
+				  "@type": "xsd:string"
+				},
 				"isValid": {
 				  "@id": "polygon-vocab:isValid",
-				  "@type": "xsd:double"
-				},
-				"issuanceDate": {
-				  "@id": "polygon-vocab:issuanceDate",
-				  "@type": "xsd:double"
-				},
-				"issuerProof": {
-				  "@id": "polygon-vocab:issuerProof",
-				  "@type": "xsd:string"
+				  "@type": "xsd:integer"
 				},
 				"issuerType": {
 				  "@id": "polygon-vocab:issuerType",
-				  "@type": "xsd:double"
+				  "@type": "xsd:integer"
 				}
 			  },
-			  "@id": "urn:uuid:92188cbc-b1d8-4872-98f4-27373e087c94"
+			  "@id": "urn:uuid:c1bd2680-d54a-43ec-92f6-0063d0812d95"
 			}
 		  }
 		]

@@ -13,10 +13,10 @@ const Operators = {
 async function main() {
 
     // you can run https://go.dev/play/p/rnrRbxXTRY6 to get schema hash and claimPathKey using YOUR schema
-    const schemaBigInt = "327205563125079620154842539669709996486"
+    const schemaBigInt = "129473305816334003586574039462315333728"
 
     // merklized path to field in the W3C credential according to JSONLD  schema e.g. birthday in the KYCAgeCredential under the url "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld"
-    const schemaClaimPathKey = "13683588199431213656606722288112293320942242134546397469742128797683553379596"
+    const schemaClaimPathKey = "19253087267225512054087054450359802493046666380431697502085604877885647817511"
 
     const requestId = 1;
 
@@ -28,7 +28,7 @@ async function main() {
     };
 
     // add the address of the contract just deployed
-    const verifierAddress = "0xBa003F28Ec83Aaa9600d4c0553a50552Dc9881bF"
+    const verifierAddress = "0x4dDD05E0667F9098f958722AFeEA61565e4653e6"
 
     let verifierContract = await hre.ethers.getContractAt("ZKPG", verifierAddress)
 
