@@ -1,5 +1,5 @@
 import {EAS, SchemaEncoder, ZERO_BYTES} from "@ethereum-attestation-service/eas-sdk";
-import {Signer} from "ethers";
+import {ethers, Signer} from "ethers";
 
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
@@ -36,7 +36,7 @@ export const publishAttestationObject = (data: {
       recipient: data.account,
       expirationTime: 0,
       revocable: true,
-      refUID: ZERO_BYTES,
+      refUID: ethers.constants.HashZero,
       data: encodedData,
       value: 0,
     },
@@ -49,7 +49,9 @@ export const modificationAttestationObject = (data: {
   account: string;
   proof: string[];
 }) => {
-  const schemaEncoder = new SchemaEncoder("bytes32 imageHash, bytes signature, address account");
+  const schemaEncoder = new SchemaEncoder(
+    "bytes32 imageHash, bytes signature, uint256[] proof, address account"
+  );
   const encodedData = schemaEncoder.encodeData([
     {name: "imageHash", value: data.newImageHash, type: "bytes32"},
     {name: "signature", value: data.signature, type: "bytes"},
@@ -57,7 +59,7 @@ export const modificationAttestationObject = (data: {
     {name: "account", value: data.account, type: "address"},
   ]);
 
-  const schemaUID = "0x5ece2b3eabf8b7b4613691e4f2a62e64fe3e52be01c8a2e0c68291b0eb8da26e";
+  const schemaUID = "0x9da78eea0198965f668125297e478b413e0333829cbbb95812cc8eb2806a66e8";
 
   return {
     schema: schemaUID,
@@ -65,7 +67,7 @@ export const modificationAttestationObject = (data: {
       recipient: data.account,
       expirationTime: 0,
       revocable: true,
-      refUID: ZERO_BYTES,
+      refUID: ethers.constants.HashZero,
       data: encodedData,
       value: 0,
     },
