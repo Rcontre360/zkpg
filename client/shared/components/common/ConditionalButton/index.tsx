@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getZKPG } from '@shared/utils/main';
 import { connect, getAccount } from "@shared/utils/metamask";
-import { Signer, BigNumber } from 'ethers';
+import { Signer } from 'ethers';
+import Link from 'next/link';
 
-export default function ConditionalButton() {
+export default function ConditionalButton({ card }) {
     const [showButton, setShowButton] = useState(false);
 
     const signer = async () => {
@@ -39,11 +40,13 @@ export default function ConditionalButton() {
     }
 
     return (
-        <button 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-5 px-8 rounded"
-            onClick={() => window.location.href='/onboard'}
-        >
-            Onboarding
-        </button>
-    );
+        <div className={`flex flex-col items-center p-8 border border-white hover:border-opacity-60 rounded-lg transform transition-transform duration-200 hover:scale-105 ${card.bgColor} w-1/3`}>
+          {card.icon}
+          <h2 className="text-xl font-bold mb-2">{card.title}</h2>
+          <p className="text-center">{card.description}</p>
+          <Link href={card.href}>
+            <a className="mt-4 text-white underline">Go to {card.title}</a>
+          </Link>
+        </div>
+      );
 }
