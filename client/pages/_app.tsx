@@ -1,4 +1,5 @@
 import "tailwindcss/tailwind.css";
+import "shared/css/index.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {wrapper} from "../redux/store";

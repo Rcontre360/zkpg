@@ -44,7 +44,7 @@ export default function VerifyImage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-start p-8 pt-16">
+    <div className="min-h-screen text-white flex flex-col items-center justify-start p-8 pt-16">
       <h1 className="text-3xl font-bold mb-8">Verify Image</h1>
 
       <Slider {...settings} className="w-full mb-12">
@@ -92,7 +92,7 @@ export default function VerifyImage() {
       </div>
       <button
         onClick={handleVerifyImage}
-        className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded w-1/2 mt-4"
+        className="bg-violet-700 hover:bg-violet-800 px-4 py-2 rounded w-1/2 mt-4"
         disabled={loading}
       >
         {loading ? "Verifying..." : "Verify"}
