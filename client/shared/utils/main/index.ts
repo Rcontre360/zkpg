@@ -3,7 +3,7 @@ import { getEthersProvider } from "../metamask";
 import zkpg from "./ZKPG.json";
 
 //const snarkjs = require("./snarkjs");
-export const ZKPG = "0xBa003F28Ec83Aaa9600d4c0553a50552Dc9881bF";
+export const ZKPG = "0x4dDD05E0667F9098f958722AFeEA61565e4653e6";
 
 export const getZKPG = async () => {
   const signer = await getEthersProvider();

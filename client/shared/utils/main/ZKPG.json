@@ -34,14 +34,14 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "requestId",
-        "type": "uint256"
+        "type": "uint64"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "challengeIndex",
+        "name": "proofId",
         "type": "uint256"
       },
       {
