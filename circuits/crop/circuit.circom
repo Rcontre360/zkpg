@@ -1,5 +1,7 @@
 pragma circom 2.0.0;
 
+//TODO hash original image and output as public signal
+
 template Crop(hOrig, wOrig, hNew, wNew, hStartNew, wStartNew) {
 
     signal input orig[hOrig][wOrig][3];
