@@ -18,7 +18,7 @@ export const ZKPGIcon = () => {
       </defs>
       <g
         id="SvgjsG1982"
-        featureKey="symbolFeature-0"
+        //featureKey="symbolFeature-0"
         transform="matrix(0.9126437385862524,0,0,0.9126437385862524,54.97263485738288,-6.237007410460777)"
         fill="url(#SvgjsLinearGradient1988)"
       >
@@ -66,7 +66,7 @@ export const ZKPGIcon = () => {
       </g>
       <g
         id="SvgjsG1983"
-        featureKey="nameFeature-0"
+        //featureKey="nameFeature-0"
         transform="matrix(2.2264028803679596,0,0,2.2264028803679596,-1.6030085451153946,73.2831654355845)"
         fill="#ffffff"
       >
@@ -74,7 +74,7 @@ export const ZKPGIcon = () => {
       </g>
       <g
         id="SvgjsG1984"
-        featureKey="sloganFeature-0"
+        //featureKey="sloganFeature-0"
         transform="matrix(0.538545562942451,0,0,0.538545562942451,20.043083860746165,201.3826892928775)"
         fill="url(#SvgjsLinearGradient1991)"
       >
