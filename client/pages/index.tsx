@@ -1,8 +1,7 @@
 import Link from "next/link";
 import ConditionalButton from "@shared/components/common/ConditionalButton";
-import {PhotographIcon,
-  DocumentAddIcon, CheckCircleIcon,
-  UserIcon} from "@heroicons/react/solid"; // Importing icons
+import {PhotographIcon, DocumentAddIcon, CheckCircleIcon, UserIcon} from "@heroicons/react/solid"; // Importing icons
+import {ZKPGIcon} from "@shared/components/icon";
 
 export default function Home() {
   const cardData = [
@@ -40,15 +39,15 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
-      <header className="w-full text-center mb-8">
-        <h1 className="text-4xl font-bold">Image.zkpg</h1>
+      <header className="w-full flex justify-center text-center mb-8">
+        <ZKPGIcon />
       </header>
 
       <div className="flex gap-8 justify-center mt-8">
-        {cardData.map((card, idx) => 
-          card.conditional 
-          ? <ConditionalButton key={idx} card={card} /> 
-          : (
+        {cardData.map((card, idx) =>
+          card.conditional ? (
+            <ConditionalButton key={idx} card={card} />
+          ) : (
             <div
               key={idx}
               className={`flex flex-col items-center p-8 border border-white hover:border-opacity-60 rounded-lg transform transition-transform duration-200 hover:scale-105 ${card.bgColor} w-1/3`}

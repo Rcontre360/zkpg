@@ -4,6 +4,7 @@ import Particles, {IParticlesProps} from "react-tsparticles";
 import {useRouter} from "next/router";
 import {loadFull} from "tsparticles";
 import {FaArrowLeft} from "react-icons/fa";
+import {ZKPGIcon} from "@shared/components/icon";
 
 const P = Particles as any;
 
